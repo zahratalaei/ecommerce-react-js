@@ -4,6 +4,7 @@ import {FaShoppingCart} from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import { useCart } from '../context/Context'
 import { useProducts } from '../context/ProductContext'
+import Filter from './Filter'
 const Header = () => {
      const {pDispatch,pState} = useProducts()
      // const [search, setSearch] = useState('')
@@ -20,10 +21,14 @@ const Header = () => {
           <Navbar.Brand>
                <Link to="/">EaseShop </Link>
           </Navbar.Brand>
-          <Navbar.Text className='search'>
-               <FormControl style={{maxWidth:500}} className='mx-auto'
+          <div className='d-flex align-items-center'>
+          <Filter/>
+
+          <Navbar.Text className='search mx-2'>
+               <FormControl style={{maxWidth:500}} 
                     placeholder='Search a product' onChange={searchHandler} type='search' aria-label='Search'/>
           </Navbar.Text>
+          </div>
           <Nav>
                <Dropdown>
                     <Dropdown.Toggle variant='success'size='sm' >

@@ -12,7 +12,7 @@ const Home = () => {
   return (
     <div className='d-flex'>
       
-      <Filter/>
+      {/* <Filter/> */}
       <Row xs={1} md={3} xl={4} className="g-2">
       {pState.products.map(product => (
           <SingleProduct key={product.id} product={product}/>

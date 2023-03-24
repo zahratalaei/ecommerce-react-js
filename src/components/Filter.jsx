@@ -4,12 +4,14 @@ import axios from 'axios'
 import {FiFilter} from 'react-icons/fi'
 import { useProducts } from '../context/ProductContext'
 import {IoIosArrowDown,IoIosArrowUp} from 'react-icons/io'
+import {FcClearFilters} from 'react-icons/fc'
 const Filter = () => {
      const[cats,setCats] = useState([])
      const{pState,pDispatch} = useProducts()
      const [show, setShow] = useState(false)
      const [openPrice,setOpenPrice] = useState(false)
      const [openCat,setOpenCat] = useState(false)
+     
   useEffect(()=>{
     fetchCat(); 
   },[])
@@ -21,63 +23,71 @@ const handleChange = (e) => {
  e.preventDefault()
  const catName = e.target.value;
  const selectedCat = cats.filter(cat=> cat.name == catName)
+ setCatValue(selectedCat)
  pDispatch({type:'SET_CATEGORY',payload:selectedCat[0].id})
 
+}
+const reset = () =>{
+  
+  pDispatch({type:'RESET_FILTERS'})
+  
 }
 
   return (
     <div className='filters'>
-     <FiFilter onClick={() => setShow(true)}/>
+     <FiFilter fontSize="25px" onClick={() => setShow(true)}/>
      <Offcanvas show={show} onHide={()=>setShow(false)}  >
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>Filters</Offcanvas.Title>
+          <FcClearFilters fontSize="25px" onClick={reset}/>
         </Offcanvas.Header>
         <Offcanvas.Body className='bg-dark text-light'>
           <div>
-     <Form.Label>Price {!openPrice ? <IoIosArrowDown onClick={()=>{setOpenPrice(true)}} /> : <IoIosArrowUp onClick={()=>{setOpenPrice(false)}} />}</Form.Label>
-     <Collapse in={openPrice}>
-     <Row className='my-2'>
-      <Col>
-      <Form.Control
-        type="number"
-        id="minPrice"
-        min='0'
-        step='10'
-        onChange={(e)=>pDispatch({type:'SET_MIN_PRICE',payload:e.target.value})}
-        placeholder='min price'
-      />
-      </Col>
-      to
-      <Col>
-      <Form.Control
-        type="number"
-        id="maxPrice"
-        min={pState.minPrice}
-        step='10'
-        onChange={(e)=>pDispatch({type:'SET_MAX_PRICE',payload:e.target.value})}
-        placeholder='max price'
-      />
-      </Col>
-     </Row>
-      </Collapse>
-      </div>
+            <Form.Label>Price {!openPrice ? <IoIosArrowDown onClick={()=>{setOpenPrice(true)}} /> : <IoIosArrowUp onClick={()=>{setOpenPrice(false)}} />}</Form.Label>
+            <Collapse in={openPrice}>
+              <Row className='my-2'>
+                <Col>
+                  <Form.Control
+                    type="number"
+                    id="minPrice"
+                    min='0'
+                    step='10'
+                    value={pState.minPrice}
+                    onChange={(e)=>pDispatch({type:'SET_MIN_PRICE',payload:e.target.value})}
+                    placeholder='min price'
+                    
+                  />
+                </Col>
+                to
+                <Col>
+                  <Form.Control
+                    type="number"
+                    id="maxPrice"
+                    min={pState.minPrice}
+                    step='10'
+                    onChange={(e)=>pDispatch({type:'SET_MAX_PRICE',payload:e.target.value})}
+                    placeholder='max price'
+                    value={pState.maxPrice}
+                  />
+                </Col>
+              </Row>
+            </Collapse>
+          </div>
           <div>
-              <Form.Label>Category {!openCat ? <IoIosArrowDown onClick={()=>{setOpenCat(true)}} /> : <IoIosArrowUp onClick={()=>{setOpenCat(false)}} />}</Form.Label>
+            <Form.Label>Category {!openCat ? <IoIosArrowDown onClick={()=>{setOpenCat(true)}} /> : <IoIosArrowUp onClick={()=>{setOpenCat(false)}} />}</Form.Label>
             <Collapse in={openCat} >
-              <Form.Select  onChange={handleChange} >
+              <Form.Select  onChange={handleChange}  >
                 <option>Choose the category</option>
-                {cats.map(cat => (
-
+                {cats.map(cat => 
+                (
                 <option value={cat.name} key={cat.id}>{cat.name}</option>
                 ))}
         
               </Form.Select>
-             </Collapse>
+            </Collapse>
           </div>
         </Offcanvas.Body>
       </Offcanvas>
-
-     
     </div>
   )
 }

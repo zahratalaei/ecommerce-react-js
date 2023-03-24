@@ -4,13 +4,13 @@ a{
 
 }
 .filters {
-     background-color: #343a40;
+     /* background-color: #343a40; */
      color: white;
-     padding: 20px;
-     display: flex;
-     flex-direction: column;
+     /* padding: 20px; */
+     /* display: flex; */
+     /* flex-direction: column; */
      /* width: 30%; */
-     margin: 10px;
+     /* margin: 10px; */
      /* height: 86vh; */
    }
    

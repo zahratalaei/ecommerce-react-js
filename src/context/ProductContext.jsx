@@ -16,16 +16,21 @@ const pReducer = (state,action) => {
                return {...state, maxPrice:action.payload}
           case 'SET_CATEGORY':
                return {...state, categoryId:action.payload}
+          case 'RESET_FILTERS':
+               return initialPState
+          default:
+               return state
      }
 }
-export const ProductContextProvider = ({children}) => {
-const[pState,pDispatch] = useReducer(pReducer,{
+const initialPState = {
      products:[],
      search:'',
      minPrice:'',
      maxPrice:'',
      categoryId:''
-})
+}
+export const ProductContextProvider = ({children}) => {
+const[pState,pDispatch] = useReducer(pReducer,initialPState)
      useEffect(()=>{
           fetchProducts()
      },[pState.search, pState.minPrice, pState.maxPrice,pState.categoryId])
